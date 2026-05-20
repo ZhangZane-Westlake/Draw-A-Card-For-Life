@@ -1,6 +1,9 @@
 import index from "./index.html";
 
-Bun.serve({
+const port = 3000;
+
+const server = Bun.serve({
+  port,
   routes: {
     "/": index,
   },
@@ -9,3 +12,5 @@ Bun.serve({
     console: true,
   },
 });
+
+console.info(`Draw A Card For Life is running at ${server.url}`);
