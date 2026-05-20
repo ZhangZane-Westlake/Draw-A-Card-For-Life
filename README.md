@@ -8,7 +8,8 @@
 - 6 种分类卡池：身体充电、心绪整理、灵感火花、温柔连接、自然呼吸、空间重启。
 - 支持“全部能量”综合抽取，也可以选择指定分类抽取。
 - 每张卡包含标题、行动指引、预计耗时、稀有度和像素配图。
-- 稀有度分为微光、柔光、星火、月辉；不同级别会使用不同卡面光效、徽章和像素图案。
+- 稀有度分为微光、柔光、星火、月辉；不同级别会使用不同卡面光效、徽章、像素图尺寸和颜色层级。
+- 每个稀有度包含多套像素图模板，同级别卡片会稳定轮换不同图案。
 - 点击抽卡后会先播放洗牌/翻卡动画，再揭示结果。
 - 图鉴记录已抽到/未抽到的卡，展示完成度，并支持一键清空重新收集。
 - 网页版可直接运行；macOS GUI 使用 Tauri 打包为 `.app` 和 `.dmg`。
@@ -90,7 +91,7 @@ CREATE TABLE IF NOT EXISTS drawn_cards (
 
 ## 像素配图与稀有度
 
-像素图不是外部图片资源，而是在 `src/data/cards.ts` 里用字符串矩阵定义，再由 `PixelCard` 按格子渲染。当前按稀有度选择不同矩阵模板，按分类套用不同调色板，因此同一级别有统一轮廓，不同级别和分类会呈现不同图案与颜色。
+像素图不是外部图片资源，而是在 `src/data/cards.ts` 里用字符串矩阵定义，再由 `PixelCard` 按格子渲染。当前每个稀有度都有多套矩阵模板，同级别卡片会按序号稳定轮换；级别差异通过卡面光效、像素格尺寸、阴影强度和分类调色板共同体现。
 
 ## 项目结构
 
@@ -122,5 +123,5 @@ macOS Tauri 打包需要先安装 Rust/Cargo；未安装时 `bunx @tauri-apps/cl
 ## GitHub 同步消息
 
 ```text
-feat: add collection reset, rarity-specific card visuals, pixel variants, and draw animation
+feat: refine draw animation state, add varied pixel templates, and polish rarity UI
 ```

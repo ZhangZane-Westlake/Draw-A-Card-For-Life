@@ -193,11 +193,14 @@ h1 {
   min-height: 430px;
   gap: 38px;
   padding: 34px;
+  overflow: hidden;
   border: 1px solid rgba(104, 178, 219, 0.18);
   border-radius: 30px;
   background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.86), transparent 16rem),
     linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(220, 244, 255, 0.62)),
     repeating-linear-gradient(90deg, rgba(100, 174, 217, 0.06) 0 1px, transparent 1px 28px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.86), 0 24px 60px rgba(68, 155, 207, 0.12);
 }
 
 .card-display.is-drawing {
@@ -216,6 +219,7 @@ h1 {
 .card-display.rarity-gentle {
   border-color: rgba(185, 215, 255, 0.34);
   background:
+    radial-gradient(circle at 18% 16%, rgba(217, 199, 255, 0.22), transparent 14rem),
     linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(232, 244, 255, 0.72)),
     repeating-linear-gradient(90deg, rgba(100, 174, 217, 0.06) 0 1px, transparent 1px 28px);
 }
@@ -223,7 +227,8 @@ h1 {
 .card-display.rarity-spark {
   border-color: rgba(255, 224, 138, 0.72);
   background:
-    radial-gradient(circle at 18% 18%, rgba(255, 240, 169, 0.58), transparent 15rem),
+    radial-gradient(circle at 18% 18%, rgba(255, 240, 169, 0.46), transparent 13rem),
+    radial-gradient(circle at 84% 20%, rgba(255, 158, 230, 0.18), transparent 12rem),
     linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(220, 244, 255, 0.62)),
     repeating-linear-gradient(90deg, rgba(100, 174, 217, 0.06) 0 1px, transparent 1px 28px);
 }
@@ -231,9 +236,10 @@ h1 {
 .card-display.rarity-rare {
   border-color: rgba(217, 199, 255, 0.86);
   background:
-    radial-gradient(circle at 14% 20%, rgba(217, 199, 255, 0.72), transparent 16rem),
-    radial-gradient(circle at 88% 18%, rgba(255, 191, 210, 0.48), transparent 14rem),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(220, 244, 255, 0.72));
+    radial-gradient(circle at 14% 20%, rgba(217, 199, 255, 0.62), transparent 15rem),
+    radial-gradient(circle at 88% 18%, rgba(255, 191, 210, 0.36), transparent 13rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(220, 244, 255, 0.72));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 30px 76px rgba(124, 91, 180, 0.16);
 }
 
 .rarity-chip.rarity-common {
@@ -258,26 +264,50 @@ h1 {
   display: grid;
   min-height: 320px;
   place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 30px;
-  background: linear-gradient(180deg, rgba(163, 225, 255, 0.28), rgba(255, 255, 255, 0.82));
-  box-shadow: inset 0 0 40px rgba(95, 173, 218, 0.16);
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255, 255, 255, 0.82), transparent 9rem),
+    linear-gradient(180deg, rgba(163, 225, 255, 0.28), rgba(255, 255, 255, 0.82));
+  box-shadow: inset 0 0 40px rgba(95, 173, 218, 0.16), 0 18px 44px rgba(80, 160, 209, 0.12);
 }
 
 .pixel-card {
   display: grid;
-  grid-template-columns: repeat(12, 14px);
-  gap: 4px;
+  grid-template-columns: repeat(12, var(--pixel-size, 14px));
+  gap: var(--pixel-gap, 4px);
   width: max-content;
-  padding: 26px;
+  padding: var(--pixel-padding, 26px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 26px;
   background: rgba(255, 255, 255, 0.72);
   box-shadow: 0 28px 80px rgba(52, 132, 184, 0.24);
   image-rendering: pixelated;
 }
 
+.rarity-gentle .pixel-card {
+  --pixel-size: 15px;
+  --pixel-gap: 4px;
+  --pixel-padding: 27px;
+}
+
+.rarity-spark .pixel-card {
+  --pixel-size: 16px;
+  --pixel-gap: 4px;
+  --pixel-padding: 28px;
+  box-shadow: 0 30px 78px rgba(189, 139, 37, 0.18), 0 0 0 8px rgba(255, 240, 169, 0.14);
+}
+
+.rarity-rare .pixel-card {
+  --pixel-size: 17px;
+  --pixel-gap: 5px;
+  --pixel-padding: 30px;
+  box-shadow: 0 34px 86px rgba(124, 91, 180, 0.2), 0 0 0 10px rgba(217, 199, 255, 0.14);
+}
+
 .pixel-cell {
-  width: 14px;
-  height: 14px;
+  width: var(--pixel-size, 14px);
+  height: var(--pixel-size, 14px);
   border-radius: 3px;
   box-shadow: inset 0 -2px 0 rgba(25, 72, 105, 0.09);
 }
@@ -288,7 +318,8 @@ h1 {
 }
 
 .card-copy h2,
-.empty-card h2 {
+.empty-card h2,
+.drawing-card h2 {
   margin-bottom: 18px;
   font-size: clamp(2.1rem, 4vw, 4.3rem);
   line-height: 1;
@@ -296,7 +327,8 @@ h1 {
 }
 
 .card-copy p,
-.empty-card p {
+.empty-card p,
+.drawing-card p {
   color: #456b84;
   font-size: clamp(1.18rem, 2vw, 1.65rem);
   line-height: 1.65;
@@ -515,15 +547,32 @@ h1 {
 }
 
 .collection-card .pixel-card {
-  grid-template-columns: repeat(12, 4px);
-  gap: 1px;
-  padding: 7px;
+  --pixel-size: 4px;
+  --pixel-gap: 1px;
+  --pixel-padding: 7px;
   border-radius: 11px;
 }
 
+.collection-card.rarity-gentle .pixel-card {
+  --pixel-size: 4px;
+}
+
+.collection-card.rarity-spark .pixel-card {
+  --pixel-size: 5px;
+  --pixel-padding: 8px;
+  box-shadow: 0 10px 28px rgba(189, 139, 37, 0.12);
+}
+
+.collection-card.rarity-rare .pixel-card {
+  --pixel-size: 5px;
+  --pixel-gap: 1px;
+  --pixel-padding: 9px;
+  box-shadow: 0 12px 30px rgba(124, 91, 180, 0.16);
+}
+
 .collection-card .pixel-cell {
-  width: 4px;
-  height: 4px;
+  width: var(--pixel-size, 4px);
+  height: var(--pixel-size, 4px);
   border-radius: 1px;
 }
 

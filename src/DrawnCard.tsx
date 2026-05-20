@@ -13,10 +13,12 @@ interface DrawnCardProps {
  * Displays the active drawn card and the primary draw action.
  */
 export function DrawnCard({ card, poolSize, isDrawing, onDraw }: DrawnCardProps) {
+  const display_rarity_class = !isDrawing && card ? `rarity-${card.rarity}` : "";
+
   return (
     <section className="draw-stage" aria-label="抽卡舞台">
       <div className="stage-glow" />
-      <div className={`card-display ${card ? `rarity-${card.rarity}` : ""} ${isDrawing ? "is-drawing" : ""}`}>
+      <div className={`card-display ${display_rarity_class} ${isDrawing ? "is-drawing" : ""}`}>
         {isDrawing ? (
           <div className="drawing-card" aria-live="polite">
             <div className="shuffle-stack">

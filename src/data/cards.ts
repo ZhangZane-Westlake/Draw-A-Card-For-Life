@@ -10,11 +10,29 @@ export const card_category_options: readonly CardCategoryOption[] = [
   { id: "reset", label: "空间重启", description: "通过整理环境给自己一个新起点。" },
 ];
 
-const pixel_art_by_rarity: Record<LifeCard["rarity"], readonly string[]> = {
-  common: ["0000ee000000", "000eeee00000", "00eeeeee0000", "0eeeeeeee000", "00eeeeee0000", "000eeee00000", "0000ee000000"],
-  gentle: ["00e000000e00", "0ee0eee0ee0", "eeeffffeeee", "eecfffffcee", "eeeffffeeee", "0ee0eee0ee0", "00e000000e00"],
-  spark: ["0000e00e0000", "00e0f00f0e00", "0eefeeeefee0", "eeeffccffeee", "0eefeeeefee0", "00e0f00f0e00", "0000e00e0000"],
-  rare: ["000c000000c0", "00ecee00eece", "0eeffeffeeef", "ceeffccffeee", "0eeffeffeeef", "00ecee00eece", "000c000000c0"],
+type PixelArtTemplate = readonly string[];
+
+const pixel_art_by_rarity: Record<LifeCard["rarity"], readonly PixelArtTemplate[]> = {
+  common: [
+    ["0000ee000000", "000eeee00000", "00eeeeee0000", "0eeeeeeee000", "00eeeeee0000", "000eeee00000", "0000ee000000"],
+    ["000000000000", "0000eeee0000", "000ee00ee000", "00ee0000ee00", "000ee00ee000", "0000eeee0000", "000000000000"],
+    ["00000ee00000", "0000eeee0000", "000eeffee000", "00eeffffee00", "000eeffee000", "0000eeee0000", "00000ee00000"],
+  ],
+  gentle: [
+    ["00e000000e00", "0ee0eee0ee0", "eeeffffeeee", "eecfffffcee", "eeeffffeeee", "0ee0eee0ee0", "00e000000e00"],
+    ["000ee00ee000", "00eeffffee00", "0eeffffffee0", "eecffffffcee", "0eeffffffee0", "00eeffffee00", "000ee00ee000"],
+    ["0000eeee0000", "00eeccccee00", "0eeffffffee0", "eeeffffeeee0", "0eeffffffee0", "00eeccccee00", "0000eeee0000"],
+  ],
+  spark: [
+    ["0000e00e0000", "00e0f00f0e00", "0eefeeeefee0", "eeeffccffeee", "0eefeeeefee0", "00e0f00f0e00", "0000e00e0000"],
+    ["00000ff00000", "0000feef0000", "00effccffe00", "0eeffffffee0", "00effccffe00", "0000feef0000", "00000ff00000"],
+    ["00e000000e00", "000e0ff0e000", "0eeffccffee0", "eeeffffffeee", "0eeffccffee0", "000e0ff0e000", "00e000000e00"],
+  ],
+  rare: [
+    ["000c000000c0", "00ecee00eece", "0eeffeffeeef", "ceeffccffeee", "0eeffeffeeef", "00ecee00eece", "000c000000c0"],
+    ["00c000000c00", "0eceffffece0", "eeffccccffee", "ceffffffffec", "eeffccccffee", "0eceffffece0", "00c000000c00"],
+    ["000c0ee0c000", "00ecefffece0", "0eeffccffee0", "ceeffffffeec", "0eeffccffee0", "00ecefffece0", "000c0ee0c000"],
+  ],
 };
 
 const body_cards: readonly Omit<LifeCard, "id" | "category" | "palette" | "pixel_art">[] = [
@@ -178,13 +196,17 @@ const card_groups = {
  */
 export const build_life_cards = (): readonly LifeCard[] => {
   return Object.entries(card_groups).flatMap(([category, cards]) =>
-    cards.map((card, index) => ({
-      ...card,
-      id: `${category}-${String(index + 1).padStart(2, "0")}`,
-      category: category as LifeCard["category"],
-      palette: category_palettes[category as LifeCard["category"]],
-      pixel_art: pixel_art_by_rarity[card.rarity],
-    })),
+    cards.map((card, index) => {
+      const pixel_art_templates = pixel_art_by_rarity[card.rarity];
+
+      return {
+        ...card,
+        id: `${category}-${String(index + 1).padStart(2, "0")}`,
+        category: category as LifeCard["category"],
+        palette: category_palettes[category as LifeCard["category"]],
+        pixel_art: pixel_art_templates[index % pixel_art_templates.length],
+      };
+    }),
   );
 };
 
