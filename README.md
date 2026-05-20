@@ -38,7 +38,11 @@ bun run build
 
 ## 运行 macOS GUI
 
-需要本机安装 Rust 与 Tauri 依赖后执行：
+需要本机安装 Rust 与 Tauri 依赖后执行。macOS 打包至少需要：
+
+- Xcode Command Line Tools
+- Rust toolchain（建议通过 rustup 安装）
+- Cargo
 
 ```sh
 bun install
@@ -89,6 +93,17 @@ src-tauri/
   src/storage.rs         # SQLite 持久化命令
   tauri.conf.json        # macOS app/dmg 打包配置
 ```
+
+## 验证状态
+
+当前已验证：
+
+```sh
+bun run build
+bunx tsc --noEmit
+```
+
+macOS Tauri 打包需要先安装 Rust/Cargo；未安装时 `bunx @tauri-apps/cli info` 会提示 `rustc` 与 `Cargo` 缺失。
 
 ## GitHub 同步消息
 
