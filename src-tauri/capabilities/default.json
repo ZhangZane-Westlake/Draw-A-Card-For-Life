@@ -1,0 +1,7 @@
+{
+  "name": "default",
+  "identifier": "default",
+  "description": "Default desktop capability for Draw A Card For Life",
+  "windows": ["main"],
+  "permissions": ["core:default", "opener:default"]
+}
