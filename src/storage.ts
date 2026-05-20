@@ -1,6 +1,7 @@
 export interface StorageBridge {
   loadDrawnCardIds(): Promise<Set<string>>;
   recordDrawnCard(cardId: string): Promise<Set<string>>;
+  clearDrawnCardIds(): Promise<Set<string>>;
 }
 
 const storage_key = "draw-a-card-for-life:drawn-card-ids";
@@ -47,5 +48,16 @@ export const create_storage_bridge = (): StorageBridge => ({
     card_ids.add(cardId);
     save_local_card_ids(card_ids);
     return card_ids;
+  },
+
+  async clearDrawnCardIds(): Promise<Set<string>> {
+    if (is_tauri_runtime()) {
+      const { invoke } = await import("@tauri-apps/api/core");
+      const card_ids = await invoke<string[]>("clear_drawn_card_ids");
+      return new Set(card_ids);
+    }
+
+    window.localStorage.removeItem(storage_key);
+    return new Set<string>();
   },
 });

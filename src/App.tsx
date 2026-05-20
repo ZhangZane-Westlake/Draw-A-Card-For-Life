@@ -17,6 +17,7 @@ export function App() {
   const [drawn_card_ids, set_drawn_card_ids] = useState<Set<string>>(new Set<string>());
   const [active_card, set_active_card] = useState<LifeCard | null>(null);
   const [is_collection_open, set_is_collection_open] = useState(false);
+  const [is_drawing, set_is_drawing] = useState(false);
 
   const card_pool = useMemo(() => {
     if (selected_category === "all") {
@@ -30,9 +31,21 @@ export function App() {
   }, []);
 
   const handle_draw_card = (): void => {
-    const result = draw_life_card(card_pool);
-    set_active_card(result.card);
-    void storage_bridge.recordDrawnCard(result.card.id).then(set_drawn_card_ids);
+    if (is_drawing) {
+      return;
+    }
+
+    set_is_drawing(true);
+    window.setTimeout(() => {
+      const result = draw_life_card(card_pool);
+      set_active_card(result.card);
+      void storage_bridge.recordDrawnCard(result.card.id).then(set_drawn_card_ids);
+      set_is_drawing(false);
+    }, 900);
+  };
+
+  const handle_clear_collection = (): void => {
+    void storage_bridge.clearDrawnCardIds().then(set_drawn_card_ids);
   };
 
   return (
@@ -72,9 +85,9 @@ export function App() {
       </section>
 
       {is_collection_open ? (
-        <CollectionView cards={life_cards} drawnCardIds={drawn_card_ids} />
+        <CollectionView cards={life_cards} drawnCardIds={drawn_card_ids} onClearCollection={handle_clear_collection} />
       ) : (
-        <DrawnCard card={active_card} poolSize={card_pool.length} onDraw={handle_draw_card} />
+        <DrawnCard card={active_card} poolSize={card_pool.length} isDrawing={is_drawing} onDraw={handle_draw_card} />
       )}
     </main>
   );

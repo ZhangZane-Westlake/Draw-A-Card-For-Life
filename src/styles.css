@@ -200,6 +200,60 @@ h1 {
     repeating-linear-gradient(90deg, rgba(100, 174, 217, 0.06) 0 1px, transparent 1px 28px);
 }
 
+.card-display.is-drawing {
+  grid-template-columns: 1fr;
+}
+
+.card-display.is-drawing::before {
+  position: absolute;
+  inset: 18px;
+  border: 2px dashed rgba(98, 202, 255, 0.42);
+  border-radius: 24px;
+  content: "";
+  animation: pulse-border 900ms ease-in-out infinite alternate;
+}
+
+.card-display.rarity-gentle {
+  border-color: rgba(185, 215, 255, 0.34);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(232, 244, 255, 0.72)),
+    repeating-linear-gradient(90deg, rgba(100, 174, 217, 0.06) 0 1px, transparent 1px 28px);
+}
+
+.card-display.rarity-spark {
+  border-color: rgba(255, 224, 138, 0.72);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 240, 169, 0.58), transparent 15rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(220, 244, 255, 0.62)),
+    repeating-linear-gradient(90deg, rgba(100, 174, 217, 0.06) 0 1px, transparent 1px 28px);
+}
+
+.card-display.rarity-rare {
+  border-color: rgba(217, 199, 255, 0.86);
+  background:
+    radial-gradient(circle at 14% 20%, rgba(217, 199, 255, 0.72), transparent 16rem),
+    radial-gradient(circle at 88% 18%, rgba(255, 191, 210, 0.48), transparent 14rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(220, 244, 255, 0.72));
+}
+
+.rarity-chip.rarity-common {
+  background: rgba(126, 207, 255, 0.18);
+}
+
+.rarity-chip.rarity-gentle {
+  background: rgba(217, 199, 255, 0.25);
+}
+
+.rarity-chip.rarity-spark {
+  color: #775315;
+  background: rgba(255, 224, 138, 0.48);
+}
+
+.rarity-chip.rarity-rare {
+  color: #563287;
+  background: linear-gradient(135deg, rgba(217, 199, 255, 0.58), rgba(255, 191, 210, 0.44));
+}
+
 .card-visual {
   display: grid;
   min-height: 320px;
@@ -271,6 +325,44 @@ h1 {
   text-align: center;
 }
 
+.drawing-card {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-column: 1 / -1;
+  place-items: center;
+  min-height: 330px;
+  text-align: center;
+}
+
+.shuffle-stack {
+  position: relative;
+  width: 168px;
+  height: 190px;
+  margin-bottom: 28px;
+}
+
+.shuffle-stack span {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 255, 255, 0.82);
+  border-radius: 24px;
+  background: linear-gradient(145deg, #78d5ff, #ffffff 58%, #fff0a9);
+  box-shadow: 0 24px 52px rgba(56, 153, 208, 0.24);
+  transform-origin: center bottom;
+  animation: shuffle-card 900ms ease-in-out infinite;
+}
+
+.shuffle-stack span:nth-child(2) {
+  animation-delay: 120ms;
+  background: linear-gradient(145deg, #b9d7ff, #ffffff 55%, #ffbfd2);
+}
+
+.shuffle-stack span:nth-child(3) {
+  animation-delay: 240ms;
+  background: linear-gradient(145deg, #9be7d8, #ffffff 55%, #d9c7ff);
+}
+
 .orbital-ring {
   width: 118px;
   height: 118px;
@@ -292,6 +384,35 @@ h1 {
   font-weight: 900;
   background: linear-gradient(135deg, #78d5ff, #e7f8ff 54%, #fff0a9);
   box-shadow: 0 20px 42px rgba(56, 153, 208, 0.28);
+}
+
+.draw-button:disabled,
+.danger-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+@keyframes shuffle-card {
+  0%, 100% {
+    transform: translateX(-20px) rotate(-8deg);
+  }
+
+  50% {
+    transform: translateX(20px) rotate(8deg) translateY(-10px);
+  }
+}
+
+@keyframes pulse-border {
+  from {
+    opacity: 0.34;
+    transform: scale(0.99);
+  }
+
+  to {
+    opacity: 0.9;
+    transform: scale(1);
+  }
 }
 
 .pool-note,
@@ -321,6 +442,28 @@ h1 {
   font-size: 1.2rem;
   font-weight: 900;
   background: linear-gradient(145deg, #8dddff, #ffffff);
+}
+
+.collection-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.danger-button {
+  cursor: pointer;
+  padding: 11px 16px;
+  border: 1px solid rgba(255, 143, 164, 0.28);
+  border-radius: 999px;
+  color: #8d3350;
+  background: rgba(255, 255, 255, 0.7);
+  font-weight: 800;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.danger-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: rgba(255, 230, 236, 0.82);
 }
 
 .progress-track {
@@ -355,6 +498,20 @@ h1 {
   border: 1px solid rgba(82, 163, 211, 0.12);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.62);
+}
+
+.collection-card.rarity-gentle {
+  border-color: rgba(185, 215, 255, 0.38);
+}
+
+.collection-card.rarity-spark {
+  border-color: rgba(255, 224, 138, 0.56);
+  background: rgba(255, 252, 239, 0.76);
+}
+
+.collection-card.rarity-rare {
+  border-color: rgba(217, 199, 255, 0.7);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.74), rgba(245, 237, 255, 0.76));
 }
 
 .collection-card .pixel-card {

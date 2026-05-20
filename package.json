@@ -12,7 +12,7 @@
     "app:build": "bun run build && bunx @tauri-apps/cli build"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.11.0",
+    "@tauri-apps/api": "2.6.2",
     "typescript": "^5.9.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
@@ -21,6 +21,6 @@
     "@types/bun": "latest",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
-    "@tauri-apps/cli": "^2.11.2"
+    "@tauri-apps/cli": "2.6.2"
   }
 }

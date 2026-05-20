@@ -8,7 +8,9 @@
 - 6 种分类卡池：身体充电、心绪整理、灵感火花、温柔连接、自然呼吸、空间重启。
 - 支持“全部能量”综合抽取，也可以选择指定分类抽取。
 - 每张卡包含标题、行动指引、预计耗时、稀有度和像素配图。
-- 图鉴记录已抽到/未抽到的卡，并展示完成度。
+- 稀有度分为微光、柔光、星火、月辉；不同级别会使用不同卡面光效、徽章和像素图案。
+- 点击抽卡后会先播放洗牌/翻卡动画，再揭示结果。
+- 图鉴记录已抽到/未抽到的卡，展示完成度，并支持一键清空重新收集。
 - 网页版可直接运行；macOS GUI 使用 Tauri 打包为 `.app` 和 `.dmg`。
 - macOS App 图鉴保存到本机 SQLite；网页版回退使用浏览器 localStorage。
 
@@ -51,6 +53,14 @@ bun run app:dev
 
 ## 打包 app 和 dmg
 
+首次打包或 Tauri 版本调整后，先同步依赖锁文件：
+
+```sh
+bun install
+```
+
+然后执行：
+
 ```sh
 bun run app:build
 ```
@@ -78,6 +88,10 @@ CREATE TABLE IF NOT EXISTS drawn_cards (
 );
 ```
 
+## 像素配图与稀有度
+
+像素图不是外部图片资源，而是在 `src/data/cards.ts` 里用字符串矩阵定义，再由 `PixelCard` 按格子渲染。当前按稀有度选择不同矩阵模板，按分类套用不同调色板，因此同一级别有统一轮廓，不同级别和分类会呈现不同图案与颜色。
+
 ## 项目结构
 
 ```text
@@ -90,7 +104,7 @@ src/
   storage.ts             # Tauri SQLite / Web localStorage 桥接
   data/cards.ts          # 120 张指引库
 src-tauri/
-  src/storage.rs         # SQLite 持久化命令
+  src/storage.rs         # SQLite 持久化与清空图鉴命令
   tauri.conf.json        # macOS app/dmg 打包配置
 ```
 
@@ -108,5 +122,5 @@ macOS Tauri 打包需要先安装 Rust/Cargo；未安装时 `bunx @tauri-apps/cl
 ## GitHub 同步消息
 
 ```text
-feat: build life energy card drawing app with categorized guide library, pixel card UI, collection tracking, and Tauri SQLite persistence
+feat: add collection reset, rarity-specific card visuals, pixel variants, and draw animation
 ```

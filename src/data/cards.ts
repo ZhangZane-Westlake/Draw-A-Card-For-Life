@@ -10,7 +10,12 @@ export const card_category_options: readonly CardCategoryOption[] = [
   { id: "reset", label: "空间重启", description: "通过整理环境给自己一个新起点。" },
 ];
 
-const pixel_symbols: readonly string[] = ["00e000000e00", "0ee0eee0ee0", "eeeffffeeee", "eecfffffcee", "eeeffffeeee", "0ee0eee0ee0", "00e000000e00"];
+const pixel_art_by_rarity: Record<LifeCard["rarity"], readonly string[]> = {
+  common: ["0000ee000000", "000eeee00000", "00eeeeee0000", "0eeeeeeee000", "00eeeeee0000", "000eeee00000", "0000ee000000"],
+  gentle: ["00e000000e00", "0ee0eee0ee0", "eeeffffeeee", "eecfffffcee", "eeeffffeeee", "0ee0eee0ee0", "00e000000e00"],
+  spark: ["0000e00e0000", "00e0f00f0e00", "0eefeeeefee0", "eeeffccffeee", "0eefeeeefee0", "00e0f00f0e00", "0000e00e0000"],
+  rare: ["000c000000c0", "00ecee00eece", "0eeffeffeeef", "ceeffccffeee", "0eeffeffeeef", "00ecee00eece", "000c000000c0"],
+};
 
 const body_cards: readonly Omit<LifeCard, "id" | "category" | "palette" | "pixel_art">[] = [
   { title: "巧克力补给", prompt: "吃一小块巧克力，闭眼感受它慢慢融化。", rarity: "gentle", minutes: 3 },
@@ -178,7 +183,7 @@ export const build_life_cards = (): readonly LifeCard[] => {
       id: `${category}-${String(index + 1).padStart(2, "0")}`,
       category: category as LifeCard["category"],
       palette: category_palettes[category as LifeCard["category"]],
-      pixel_art: pixel_symbols,
+      pixel_art: pixel_art_by_rarity[card.rarity],
     })),
   );
 };

@@ -60,3 +60,12 @@ pub fn record_drawn_card(app_handle: tauri::AppHandle, card_id: String) -> Resul
         .map_err(|error| error.to_string())?;
     load_drawn_card_ids(app_handle)
 }
+
+#[tauri::command]
+pub fn clear_drawn_card_ids(app_handle: tauri::AppHandle) -> Result<Vec<String>, String> {
+    let connection = open_database(&app_handle)?;
+    connection
+        .execute("DELETE FROM drawn_cards", [])
+        .map_err(|error| error.to_string())?;
+    Ok(Vec::new())
+}
